@@ -64,6 +64,7 @@ body{
   white-space:nowrap;
   width:0;
   border-right:2px solid transparent;
+  margin-bottom:.1em;
 }
 
 .line1{
@@ -77,25 +78,36 @@ body{
 }
 
 .line2{
+  overflow:hidden;
   font-family:"Afrah", Georgia, serif;
   font-size:clamp(2.8rem,6vw,5rem);
   font-style:italic;
+  line-height:1.12;
+  padding-bottom:.15em;
   color:#e8c97a;
   animation:
     showCursor 0s forwards,
     typing2 1.8s steps(12,end) forwards,
     blink 1.5s infinite;
-  animation-delay:2.6s, 2.6s, 2.6s;
+  animation-delay:2.6s, 2.6s, 4.4s;
 }
 
 .line3{
   margin-top:1.5rem;
   max-width:900px;
+  width:fit-content;
+
+  padding:.2rem .1rem;
+
+  background:rgba(0,0,0,.35);
+
+  border-radius:0px;
+
   font-family:"Ahamono", monospace;
   font-size:1.1rem;
   font-weight:bold;
   line-height:1.7;
-  color:rgba(255,255,255,.85);
+  color:rgba(255,255,255,.9);
 }
 
 @keyframes typing1{
@@ -105,7 +117,7 @@ body{
 
 @keyframes typing2{
   from{width:0}
-  to{width:50%}
+  to{width:48%}
 }
 
 @keyframes blink{
@@ -236,7 +248,7 @@ body{
   max-width:700px;
   margin:0 auto;
   padding:6rem 0;
-  color:rgb(111,111,111);
+  color:rgb(89, 89, 89);
 }
 
 #outro-text p{
@@ -255,7 +267,7 @@ footer {
   padding: 3rem 5%;
   font-family: Georgia, serif;
   font-size: 0.95rem;
-  color: rgb(150, 150, 150);
+  color: rgb(89, 89, 89);
 }
 
 footer a {
@@ -563,7 +575,7 @@ const maleData = [
   { profession: "Photographer", value: 11 }
 ];
 
-const decadeColor = "#E76BA8";
+const decadeColor = "#7A86FF";
 const femaleColor = "#FF1F8E";
 const maleColor = "#7A86FF";
 const lightPink = "#F8B8D8";
@@ -743,18 +755,45 @@ function drawDecades(target = "#chart") {
       .ease(d3.easeLinear)
       .attr("stroke-dashoffset", 0);
 
-    chartGroup.selectAll(".dot")
-      .data(decadeData)
-      .join("circle")
-      .attr("class", "dot")
-      .attr("cx", d => x(d.decade))
-      .attr("cy", d => y(d.value))
-      .attr("r", 0)
-      .attr("fill", decadeColor)
-      .transition()
-      .delay((d, i) => target === "#chart" ? 900 + i * 120 : i * 80)
-      .duration(600)
-      .attr("r", mobile ? 5 : 7);
+chartGroup.selectAll(".dot")
+  .data(decadeData.filter(d => d.decade !== "2000s"))
+  .join("circle")
+  .attr("class", "dot")
+  .attr("cx", d => x(d.decade))
+  .attr("cy", d => y(d.value))
+  .attr("r", 0)
+  .attr("fill", decadeColor)
+  .transition()
+  .delay((d, i) => target === "#chart" ? 900 + i * 120 : i * 80)
+  .duration(600)
+  .attr("r", mobile ? 5 : 7);
+
+const heartData = decadeData.filter(d => d.decade === "2000s");
+const heartSize = mobile ? 6 : 9;
+
+  chartGroup.selectAll(".dot-heart")
+    .data(heartData)
+    .join("path")
+    .attr("class", "dot-heart")
+    .attr("transform", d =>
+    `translate(${x(d.decade)}, ${y(d.value)}) scale(0)`
+    )
+    .attr("d", d => {
+      const s = heartSize;
+      return `M 0,${-s * 0.3}
+        C 0,${-s * 1.0} ${-s * 1.1},${-s * 1.0} ${-s * 1.1},${-s * 0.3}
+        C ${-s * 1.1},${s * 0.4} 0,${s * 1.1} 0,${s * 1.1}
+        C 0,${s * 1.1} ${s * 1.1},${s * 0.4} ${s * 1.1},${-s * 0.3}
+        C ${s * 1.1},${-s * 1.0} 0,${-s * 1.0} 0,${-s * 0.3}
+        Z`;
+    })
+    .attr("fill", "#E58AAE")
+    .transition()
+    .delay(target === "#chart" ? 900 + 2 * 120 : 2 * 80)
+    .duration(600)
+    .attr("transform", d =>
+      `translate(${x(d.decade)}, ${y(d.value)}) scale(1)`
+    );
 
     chartGroup.selectAll(".decade-value")
       .data(decadeData)
