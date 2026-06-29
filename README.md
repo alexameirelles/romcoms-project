@@ -56,18 +56,9 @@ The final dataset contains **882 films**.
 
 The analysis required considerably more work than simply filtering IMDb.
 
-### Defining romantic comedies
-
-IMDb genres alone were not sufficient. Many titles classified as Comedy and Romance are generally considered dramas, ensemble films, or comedies with only a romantic subplot.
-
-To speed up the review process, I asked both ChatGPT and Claude to identify potential false positives. Every recommendation was manually reviewed before any title was removed.
-
-### Identifying protagonists
-
 IMDb does not explicitly identify protagonists.
 
 I initially selected the first two billed actors (ordering == 1 and ordering == 2), then manually corrected films where the billing order did not match the central romantic couple, which happened more often than I expected.
-
 
 ### Inferring professions
 
@@ -80,6 +71,12 @@ Because occupations are often omitted from plot summaries, the prompt intentiona
 The inferred professions were then manually reviewed in batches of 100 films.
 
 Even after this process, **Unknown** remained one of the most frequent categories. Since it does not represent an actual occupation, I excluded it from the rankings shown in the visualizations. To display the ten most common professions, I first selected the top 11 categories (`head(11)`), removed **Unknown**, and then plotted the remaining top ten.
+
+### Defining romantic comedies
+
+IMDb genres alone were not sufficient. Many titles classified as Comedy and Romance are generally considered dramas, ensemble films, or comedies with only a romantic subplot.
+
+I should have done that first, but it ended up being part of the process. I asked both ChatGPT and Claude to identify potential false positives. Their recommendations were then manually reviewed before the titles were removed.
 
 ---
 
