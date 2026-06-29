@@ -27,7 +27,7 @@ body{
     #ffd6f0 100%
   );
   background-size:300% 300%;
-  animation:holo 10s ease infinite;
+  animation:holo 30s ease infinite;
 }
 
 #hero{
@@ -600,7 +600,7 @@ function drawNote(selection, width, height, mobile) {
     .text("Note: 2020s movies are through 2025. | Source: IMDb");
 }
 
-function drawChartHeader(selection, title, subtitle, x, y, mobile) {
+function drawChartHeader(selection, title, subtitle, x, y, mobile, titleSize = 20) {
   selection.selectAll(".chart-title").remove();
   selection.selectAll(".chart-subtitle").remove();
 
@@ -610,7 +610,7 @@ function drawChartHeader(selection, title, subtitle, x, y, mobile) {
   .attr("y", y)
   .attr("text-anchor", "start")
   .attr("font-family", "Georgia")
-  .attr("font-size", mobile ? 14 : 20)
+  .attr("font-size", mobile ? 14 : titleSize)
   .attr("font-weight", "bold")
   .attr("fill", "#555");
 
@@ -696,7 +696,8 @@ function drawDecades(target = "#chart") {
       "(n=882)",
       mobile ? 12 : margin.left,
       mobile ? 22 : 35,
-      mobile
+      mobile,
+      18
     );
 
     chartGroup.append("g")
