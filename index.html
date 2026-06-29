@@ -96,13 +96,9 @@ body{
   margin-top:1.5rem;
   max-width:900px;
   width:fit-content;
-
   padding:.2rem .1rem;
-
   background:rgba(0,0,0,.35);
-
   border-radius:0px;
-
   font-family:"Ahamono", monospace;
   font-size:1.1rem;
   font-weight:bold;
@@ -225,7 +221,6 @@ body{
   border:1px solid rgba(255,255,255,.6);
   padding:2rem;
   box-shadow:0 12px 40px rgba(0,0,0,.08);
-
   opacity:0;
   transform:translateY(60px);
   transition:
@@ -256,7 +251,6 @@ body{
   line-height:1.8;
   margin-bottom:1.5rem;
 }
-
 
 #mobile-story{
   display:none;
@@ -408,9 +402,7 @@ footer a {
     display:block;
     margin:0 auto 1.5rem;
   }
-
 }
-
 </style>
 </head>
 
@@ -462,13 +454,10 @@ footer a {
   <p>
     That left me with 882 movies, not just Hollywood productions, although they make up the overwhelming majority. So, what do the numbers actually show?
   </p>
-
 </section>
 
 <section id="scrolly">
-
   <div class="scrolly-text">
-
     <div class="step" id="step1">
       <div class="step-box">
         <p>
@@ -480,7 +469,7 @@ footer a {
     <div class="step" id="step2">
       <div class="step-box">
         <p>
-          And here's why wondering <b>"are they all journalists?"</b> isn't too absurd. It is indeed one of the ten most common professions among female romantic comedy protagonists. Even so, stories about teenagers and young adults dominate the genre: "student" appears far more often than any other occupation.
+          And here's why wondering <b>"are they all journalists?"</b> isn't too absurd. It is indeed one of the ten most common professions among female romantic comedy protagonists. Even so, stories about teenagers and young adults dominate the genre: "student" appears far more often than any other occupation. After that, "teacher" is the second most frequent occupation, while <b>"journalist" ranks third</b>.
         </p>
       </div>
     </div>
@@ -488,22 +477,19 @@ footer a {
     <div class="step" id="step3">
       <div class="step-box">
         <p>
-          Among male protagonists, the picture changes. <b>Businessman is the most common profession</b>, reflecting one of the genre's most familiar archetypes: the successful, powerful man who initially clashes with the female lead before eventually becoming her love interest. 
-          Writer comes in second, making it another remarkably common occupation among rom-com heroes.
+          Among male protagonists, "student" is still the most common category, but after that, <b>businessman is the dominant profession</b>, reflecting one of the genre's most familiar archetypes: the successful, powerful man who initially clashes with the female lead before eventually becoming her love interest.
+          <b>Writer comes in third</b>, making it another remarkably common occupation among rom-com heroes.
         </p>
       </div>
     </div>
-
   </div>
 
   <div class="sticky-thing">
     <svg id="chart"></svg>
   </div>
-
 </section>
 
 <section id="mobile-story">
-
   <div class="mobile-chart-block">
     <p>
       The genre grew rapidly in the 1990s and <b>peaked in the 2000s</b>, the decade that gave us some of its most iconic titles, including <em>13 Going on 30</em>, <em>How to Lose a Guy in 10 Days</em>, <em>The Proposal</em>, <em>27 Dresses</em>, <em>Bridget Jones's Diary</em> and others.
@@ -524,7 +510,6 @@ footer a {
     </p>
     <svg id="mobile-chart-3"></svg>
   </div>
-
 </section>
 
 <section id="outro-text">
@@ -577,30 +562,39 @@ const maleData = [
 
 const decadeColor = "#7A86FF";
 const femaleColor = "#FF1F8E";
-const maleColor = "#7A86FF";
-const lightPink = "#F8B8D8";
-const lightBlue = "#AEBBFF";
+const maleColor  = "#7A86FF";
+const lightPink  = "#F8B8D8";
+const lightBlue  = "#AEBBFF";
 
 let currentStep = null;
+
+// ─── helpers ────────────────────────────────────────────────────────────────
 
 function isMobile() {
   return window.innerWidth <= 768;
 }
 
+// REFACTOR: all layout values in one place instead of scattered inside drawChart
 function getChartDimensions() {
   const mobile = isMobile();
   return {
-    width: mobile ? 360 : 730,
-    height: mobile ? 400 : 610,
-    margin: mobile
+    width:     mobile ? 360  : 730,
+    height:    mobile ? 400  : 610,
+    margin:    mobile
       ? { top: 58, right: 24, bottom: 45, left: 45 }
-      : { top: 80, right: 70, bottom: 110, left: 80 }
+      : { top: 80, right: 70, bottom: 110, left: 80 },
+    // bar chart layout
+    xStart:    mobile ? 150  : 220,
+    labelX:    mobile ? 140  : 210,
+    rowHeight: mobile ? 28   : 45,
+    fontSize:  mobile ? 14   : 18,
+    barHeight: mobile ? 14   : 18,
+    barScale:  mobile ? 0.48 : 1,
   };
 }
 
 function drawNote(selection, width, height, mobile) {
   selection.selectAll(".note").remove();
-
   selection.append("text")
     .attr("class", "note")
     .attr("x", mobile ? 12 : 80)
@@ -617,41 +611,29 @@ function drawChartHeader(selection, title, subtitle, x, y, mobile, titleSize = 2
   selection.selectAll(".chart-subtitle").remove();
 
   const titleText = selection.append("text")
-  .attr("class", "chart-title")
-  .attr("x", x)
-  .attr("y", y)
-  .attr("text-anchor", "start")
-  .attr("font-family", "Georgia")
-  .attr("font-size", mobile ? 14 : titleSize)
-  .attr("font-weight", "bold")
-  .attr("fill", "#555");
-
-if (mobile && title === "Number of rom-coms released over the past 45 years (1980–2025)") {
-
-  titleText.append("tspan")
+    .attr("class", "chart-title")
     .attr("x", x)
-    .text("Number of rom-coms released");
+    .attr("y", y)
+    .attr("text-anchor", "start")
+    .attr("font-family", "Georgia")
+    .attr("font-size", mobile ? 14 : titleSize)
+    .attr("font-weight", "bold")
+    .attr("fill", "#555");
 
-  titleText.append("tspan")
-    .attr("x", x)
-    .attr("dy", "1.2em")
-    .text("over the past 45 years (1980–2025)");
-
-} else {
-
-  titleText.text(title);
-
-}
+  if (mobile && title === "Number of rom-coms released over the past 45 years (1980–2025)") {
+    titleText.append("tspan").attr("x", x).text("Number of rom-coms released");
+    titleText.append("tspan").attr("x", x).attr("dy", "1.2em").text("over the past 45 years (1980–2025)");
+  } else {
+    titleText.text(title);
+  }
 
   selection.append("text")
     .attr("class", "chart-subtitle")
     .attr("x", x)
     .attr("y", y + (
-      mobile &&
-      title === "Number of rom-coms released over the past 45 years (1980–2025)"
-        ? 42
-        : 22
-      ))
+      mobile && title === "Number of rom-coms released over the past 45 years (1980–2025)"
+        ? 42 : 22
+    ))
     .attr("text-anchor", "start")
     .attr("font-family", "Georgia")
     .attr("font-size", mobile ? 12 : 14)
@@ -659,181 +641,155 @@ if (mobile && title === "Number of rom-coms released over the past 45 years (198
     .text(subtitle);
 }
 
+// REFACTOR: clearChart is a standalone utility — callers decide when to use it
 function clearChart(target, callback) {
-  const svg = d3.select(target);
-
-  svg.selectAll("*")
+  d3.select(target).selectAll("*")
     .transition()
     .duration(450)
     .style("opacity", 0)
     .remove();
-
   setTimeout(callback, 450);
 }
 
-function drawDecades(target = "#chart") {
-  const draw = function() {
-    const mobile = isMobile();
-    const { width, height, margin } = getChartDimensions();
+// ─── chart renderers ─────────────────────────────────────────────────────────
 
-    const svg = d3.select(target)
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("preserveAspectRatio", "xMidYMid meet");
+function drawDecades(target = "#chart", animate = true) {
+  const mobile = isMobile();
+  const { width, height, margin } = getChartDimensions();
 
-    const chartGroup = svg.append("g")
-      .attr("class", "decade-chart")
-      .style("opacity", 0);
+  const svg = d3.select(target)
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("preserveAspectRatio", "xMidYMid meet");
 
-    chartGroup
-      .transition()
-      .duration(target === "#chart" ? 500 : 0)
-      .style("opacity", 1);
+  const chartGroup = svg.append("g")
+    .attr("class", "decade-chart")
+    .style("opacity", 0);
 
-    const x = d3.scalePoint()
-      .domain(decadeData.map(d => d.decade))
-      .range([margin.left, width - margin.right]);
+  chartGroup.transition().duration(animate ? 500 : 0).style("opacity", 1);
 
-    const y = d3.scaleLinear()
-      .domain([0, 320])
-      .nice()
-      .range([height - margin.bottom, margin.top]);
+  const x = d3.scalePoint()
+    .domain(decadeData.map(d => d.decade))
+    .range([margin.left, width - margin.right]);
 
-    const line = d3.line()
-      .x(d => x(d.decade))
-      .y(d => y(d.value));
+  const y = d3.scaleLinear()
+    .domain([0, 320]).nice()
+    .range([height - margin.bottom, margin.top]);
 
-    drawChartHeader(
-      chartGroup,
-      "Number of rom-coms released over the past 45 years (1980–2025)",
-      "(n=882)",
-      mobile ? 12 : margin.left,
-      mobile ? 22 : 35,
-      mobile,
-      18
+  const line = d3.line()
+    .x(d => x(d.decade))
+    .y(d => y(d.value));
+
+  drawChartHeader(
+    chartGroup,
+    "Number of rom-coms released over the past 45 years (1980–2025)",
+    "(n=882)",
+    mobile ? 12 : margin.left,
+    mobile ? 22 : 35,
+    mobile, 18
+  );
+
+  chartGroup.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x).tickSize(0))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll("text")
+      .attr("font-family", "Georgia")
+      .attr("font-size", mobile ? 10 : 16)
+      .attr("fill", "#555")
+      .attr("dy", "1.5em")
     );
 
-    chartGroup.append("g")
-      .attr("transform", `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x).tickSize(0))
-      .call(g => g.select(".domain").remove())
-      .call(g => g.selectAll("text")
-        .attr("font-family", "Georgia")
-        .attr("font-size", mobile ? 10 : 16)
-        .attr("fill", "#555")
-        .attr("dy", "1.5em")
-      );
+  chartGroup.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(
+      d3.axisLeft(y).ticks(4)
+        .tickSize(-(width - margin.left - margin.right))
+        .tickFormat("")
+    )
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll("line").attr("stroke", "rgba(85,85,85,.18)"));
 
-    chartGroup.append("g")
-      .attr("transform", `translate(${margin.left},0)`)
-      .call(
-        d3.axisLeft(y)
-          .ticks(4)
-          .tickSize(-(width - margin.left - margin.right))
-          .tickFormat("")
-      )
-      .call(g => g.select(".domain").remove())
-      .call(g => g.selectAll("line")
-        .attr("stroke", "rgba(85,85,85,.18)")
-      );
+  const path = chartGroup.append("path")
+    .datum(decadeData)
+    .attr("fill", "none")
+    .attr("stroke", decadeColor)
+    .attr("stroke-width", mobile ? 3 : 5)
+    .attr("stroke-linecap", "round")
+    .attr("stroke-linejoin", "round")
+    .attr("d", line);
 
-    const path = chartGroup.append("path")
-      .datum(decadeData)
-      .attr("fill", "none")
-      .attr("stroke", decadeColor)
-      .attr("stroke-width", mobile ? 3 : 5)
-      .attr("stroke-linecap", "round")
-      .attr("stroke-linejoin", "round")
-      .attr("d", line);
+  const totalLength = path.node().getTotalLength();
+  path
+    .attr("stroke-dasharray", totalLength)
+    .attr("stroke-dashoffset", totalLength)
+    .transition()
+    .duration(animate ? 1700 : 900)
+    .ease(d3.easeLinear)
+    .attr("stroke-dashoffset", 0);
 
-    const totalLength = path.node().getTotalLength();
+  // regular dots (all except 2000s)
+  chartGroup.selectAll(".dot")
+    .data(decadeData.filter(d => d.decade !== "2000s"))
+    .join("circle")
+    .attr("class", "dot")
+    .attr("cx", d => x(d.decade))
+    .attr("cy", d => y(d.value))
+    .attr("r", 0)
+    .attr("fill", decadeColor)
+    .transition()
+    .delay((d, i) => animate ? 900 + i * 120 : i * 80)
+    .duration(600)
+    .attr("r", mobile ? 5 : 7);
 
-    path
-      .attr("stroke-dasharray", totalLength)
-      .attr("stroke-dashoffset", totalLength)
-      .transition()
-      .duration(target === "#chart" ? 1700 : 900)
-      .ease(d3.easeLinear)
-      .attr("stroke-dashoffset", 0);
-
-chartGroup.selectAll(".dot")
-  .data(decadeData.filter(d => d.decade !== "2000s"))
-  .join("circle")
-  .attr("class", "dot")
-  .attr("cx", d => x(d.decade))
-  .attr("cy", d => y(d.value))
-  .attr("r", 0)
-  .attr("fill", decadeColor)
-  .transition()
-  .delay((d, i) => target === "#chart" ? 900 + i * 120 : i * 80)
-  .duration(600)
-  .attr("r", mobile ? 5 : 7);
-
-const heartData = decadeData.filter(d => d.decade === "2000s");
-const heartSize = mobile ? 6 : 9;
-
+  // heart for the 2000s peak
+  const heartSize = mobile ? 6 : 9;
   chartGroup.selectAll(".dot-heart")
-    .data(heartData)
+    .data(decadeData.filter(d => d.decade === "2000s"))
     .join("path")
     .attr("class", "dot-heart")
-    .attr("transform", d =>
-    `translate(${x(d.decade)}, ${y(d.value)}) scale(0)`
-    )
-    .attr("d", d => {
+    .attr("transform", d => `translate(${x(d.decade)}, ${y(d.value)}) scale(0)`)
+    .attr("d", () => {
       const s = heartSize;
       return `M 0,${-s * 0.3}
         C 0,${-s * 1.0} ${-s * 1.1},${-s * 1.0} ${-s * 1.1},${-s * 0.3}
         C ${-s * 1.1},${s * 0.4} 0,${s * 1.1} 0,${s * 1.1}
         C 0,${s * 1.1} ${s * 1.1},${s * 0.4} ${s * 1.1},${-s * 0.3}
-        C ${s * 1.1},${-s * 1.0} 0,${-s * 1.0} 0,${-s * 0.3}
-        Z`;
+        C ${s * 1.1},${-s * 1.0} 0,${-s * 1.0} 0,${-s * 0.3} Z`;
     })
     .attr("fill", "#E58AAE")
     .transition()
-    .delay(target === "#chart" ? 900 + 2 * 120 : 2 * 80)
+    .delay(animate ? 900 + 2 * 120 : 2 * 80)
     .duration(600)
-    .attr("transform", d =>
-      `translate(${x(d.decade)}, ${y(d.value)}) scale(1)`
-    );
+    .attr("transform", d => `translate(${x(d.decade)}, ${y(d.value)}) scale(1)`);
 
-    chartGroup.selectAll(".decade-value")
-      .data(decadeData)
-      .join("text")
-      .attr("class", "decade-value")
-      .attr("x", d => x(d.decade))
-      .attr("y", d => y(d.value) - (mobile ? 10 : 18))
-      .attr("text-anchor", "middle")
-      .attr("font-family", "Georgia")
-      .attr("font-size", mobile ? 10 : 17)
-      .attr("font-weight", "bold")
-      .attr("fill", "#555")
-      .style("opacity", 0)
-      .text(d => d.value)
-      .transition()
-      .delay((d, i) => target === "#chart" ? 1100 + i * 120 : 300 + i * 80)
-      .duration(600)
-      .style("opacity", 1);
+  chartGroup.selectAll(".decade-value")
+    .data(decadeData)
+    .join("text")
+    .attr("class", "decade-value")
+    .attr("x", d => x(d.decade))
+    .attr("y", d => y(d.value) - (mobile ? 10 : 18))
+    .attr("text-anchor", "middle")
+    .attr("font-family", "Georgia")
+    .attr("font-size", mobile ? 10 : 17)
+    .attr("font-weight", "bold")
+    .attr("fill", "#555")
+    .style("opacity", 0)
+    .text(d => d.value)
+    .transition()
+    .delay((d, i) => animate ? 1100 + i * 120 : 300 + i * 80)
+    .duration(600)
+    .style("opacity", 1);
 
-    drawNote(chartGroup, width, height, mobile);
-  };
-
-  if (target === "#chart") {
-    clearChart(target, draw);
-  } else {
-    d3.select(target).selectAll("*").remove();
-    draw();
-  }
+  drawNote(chartGroup, width, height, mobile);
 }
 
+// REFACTOR: drawChart only draws — callers handle clearing/transitioning
 function drawChart(data, color, title, subtitle, target = "#chart") {
   const mobile = isMobile();
-  const { width, height } = getChartDimensions();
 
-  const chartOffset = mobile ? 0 : 40;
-  const xStart = (mobile ? 150 : 180) + chartOffset;
-  const labelX = (mobile ? 140 : 170) + chartOffset;
-  const rowHeight = mobile ? 28 : 45;
-  const fontSize = mobile ? 14 : 18;
-  const barHeight = mobile ? 14 : 18;
+  // all layout values from one place
+  const { width, height, xStart, labelX, rowHeight, fontSize, barHeight, barScale } =
+    getChartDimensions();
 
   const y = (d, i) => i * rowHeight + (mobile ? 72 : 100);
 
@@ -841,246 +797,169 @@ function drawChart(data, color, title, subtitle, target = "#chart") {
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
-  function drawBars() {
-    svg.selectAll(".note").remove();
-    svg.selectAll(".chart-title").remove();
-    svg.selectAll(".chart-subtitle").remove();
+  svg.selectAll(".note, .chart-title, .chart-subtitle").remove();
 
-    drawChartHeader(
-      svg,
-      title,
-      subtitle,
-      mobile ? 12 : 80,
-      mobile ? 22 : 35,
-      mobile
+  drawChartHeader(
+    svg, title, subtitle,
+    mobile ? 12 : 80,
+    mobile ? 22 : 35,
+    mobile
+  );
+
+  const t = d3.transition()
+    .duration(target === "#chart" ? 950 : 700)
+    .ease(d3.easeCubicInOut);
+
+  function barFill(d) {
+    if (color === femaleColor)
+      return ["Student", "Journalist"].includes(d.profession) ? color : lightPink;
+    if (color === maleColor)
+      return ["Student", "Businessman", "Writer"].includes(d.profession) ? color : lightBlue;
+    return color;
+  }
+
+  function isHighlighted(d) {
+    if (color === femaleColor) return ["Student", "Journalist"].includes(d.profession);
+    if (color === maleColor)   return ["Student", "Businessman", "Writer"].includes(d.profession);
+    return false;
+  }
+
+  svg.selectAll(".bar")
+    .data(data, d => d.profession)
+    .join(
+      enter => enter.append("rect")
+        .attr("class", "bar")
+        .attr("x", xStart)
+        .attr("y", (d, i) => y(d, i))
+        .attr("width", 0)
+        .attr("height", barHeight)
+        .attr("rx", 1).attr("ry", 1)
+        .attr("fill", d => barFill(d))
+        .style("opacity", 0)
+        .call(enter => enter.transition(t)
+          .style("opacity", 1)
+          .attr("width", d => d.value * barScale)
+        ),
+      update => update.call(update => update.transition(t)
+        .attr("y", (d, i) => y(d, i))
+        .attr("width", d => d.value * barScale)
+        .attr("fill", d => barFill(d))
+      ),
+      exit => exit.call(exit => exit.transition().duration(450)
+        .style("opacity", 0).attr("width", 0).remove()
+      )
     );
 
-    const t = d3.transition()
-      .duration(target === "#chart" ? 950 : 700)
-      .ease(d3.easeCubicInOut);
+  svg.selectAll(".label")
+    .data(data, d => d.profession)
+    .join(
+      enter => enter.append("text")
+        .attr("class", "label")
+        .attr("x", labelX)
+        .attr("y", (d, i) => y(d, i) + barHeight - 1)
+        .attr("text-anchor", "end")
+        .attr("font-family", "Georgia")
+        .attr("font-size", fontSize)
+        .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
+        .attr("fill", "#555")
+        .text(d => d.profession)
+        .style("opacity", 0)
+        .call(enter => enter.transition(t).style("opacity", 1)),
+      update => update.call(update => update.transition(t)
+        .attr("y", (d, i) => y(d, i) + barHeight - 1)
+        .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
+        .style("opacity", 1)
+      ),
+      exit => exit.call(exit => exit.transition().duration(450)
+        .style("opacity", 0).remove()
+      )
+    );
 
-    const scale = mobile ? 0.48 : 1;
+  svg.selectAll(".value")
+    .data(data, d => d.profession)
+    .join(
+      enter => enter.append("text")
+        .attr("class", "value")
+        .attr("x", d => xStart + d.value * barScale + 6)
+        .attr("y", (d, i) => y(d, i) + barHeight - 1)
+        .attr("font-family", "Georgia")
+        .attr("font-size", fontSize)
+        .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
+        .attr("fill", "#555")
+        .text(d => d.value)
+        .style("opacity", 0)
+        .call(enter => enter.transition(t).style("opacity", 1)),
+      update => update.call(update => update.transition(t)
+        .attr("x", d => xStart + d.value * barScale + 6)
+        .attr("y", (d, i) => y(d, i) + barHeight - 1)
+        .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
+        .tween("text", function(d) {
+          const start = +this.textContent || 0;
+          const interp = d3.interpolateNumber(start, d.value);
+          return function(t) { this.textContent = Math.round(interp(t)); };
+        })
+      ),
+      exit => exit.call(exit => exit.transition().duration(450)
+        .style("opacity", 0).remove()
+      )
+    );
 
-    function barFill(d) {
-      if (color === femaleColor) {
-        return ["Student", "Journalist"].includes(d.profession)
-          ? color
-          : lightPink;
-      }
-
-      if (color === maleColor) {
-        return ["Student", "Businessman", "Writer"].includes(d.profession)
-          ? color
-          : lightBlue;
-      }
-
-      return color;
-    }
-
-    function isHighlighted(d) {
-      if (color === femaleColor) {
-        return ["Student", "Journalist"].includes(d.profession);
-      }
-
-      if (color === maleColor) {
-        return ["Student", "Businessman", "Writer"].includes(d.profession);
-      }
-
-      return false;
-    }
-
-    svg.selectAll(".bar")
-      .data(data, d => d.profession)
-      .join(
-        enter => enter.append("rect")
-          .attr("class", "bar")
-          .attr("x", xStart)
-          .attr("y", (d, i) => y(d, i))
-          .attr("width", 0)
-          .attr("height", barHeight)
-          .attr("rx", 1)
-          .attr("ry", 1)
-          .attr("fill", d => barFill(d))
-          .style("opacity", 0)
-          .call(enter => enter.transition(t)
-            .style("opacity", 1)
-            .attr("width", d => d.value * scale)
-          ),
-
-        update => update.call(update => update.transition(t)
-          .attr("y", (d, i) => y(d, i))
-          .attr("width", d => d.value * scale)
-          .attr("fill", d => barFill(d))
-        ),
-
-        exit => exit.call(exit => exit.transition()
-          .duration(450)
-          .style("opacity", 0)
-          .attr("width", 0)
-          .remove()
-        )
-      );
-
-    svg.selectAll(".label")
-      .data(data, d => d.profession)
-      .join(
-        enter => enter.append("text")
-          .attr("class", "label")
-          .attr("x", labelX)
-          .attr("y", (d, i) => y(d, i) + barHeight - 1)
-          .attr("text-anchor", "end")
-          .attr("font-family", "Georgia")
-          .attr("font-size", fontSize)
-          .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
-          .attr("fill", "#555")
-          .text(d => d.profession)
-          .style("opacity", 0)
-          .call(enter => enter.transition(t)
-            .style("opacity", 1)
-          ),
-
-        update => update.call(update => update.transition(t)
-          .attr("y", (d, i) => y(d, i) + barHeight - 1)
-          .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
-          .style("opacity", 1)
-        ),
-
-        exit => exit.call(exit => exit.transition()
-          .duration(450)
-          .style("opacity", 0)
-          .remove()
-        )
-      );
-
-    svg.selectAll(".value")
-      .data(data, d => d.profession)
-      .join(
-        enter => enter.append("text")
-          .attr("class", "value")
-          .attr("x", d => xStart + d.value * scale + 6)
-          .attr("y", (d, i) => y(d, i) + barHeight - 1)
-          .attr("font-family", "Georgia")
-          .attr("font-size", fontSize)
-          .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
-          .attr("fill", "#555")
-          .text(d => d.value)
-          .style("opacity", 0)
-          .call(enter => enter.transition(t)
-            .style("opacity", 1)
-          ),
-
-        update => update.call(update => update.transition(t)
-          .attr("x", d => xStart + d.value * scale + 6)
-          .attr("y", (d, i) => y(d, i) + barHeight - 1)
-          .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
-          .tween("text", function(d) {
-            const start = +this.textContent || 0;
-            const interp = d3.interpolateNumber(start, d.value);
-            return function(t) {
-              this.textContent = Math.round(interp(t));
-            };
-          })
-        ),
-
-        exit => exit.call(exit => exit.transition()
-          .duration(450)
-          .style("opacity", 0)
-          .remove()
-        )
-      );
-
-    drawNote(svg, width, height, mobile);
-  }
-
-  if (target !== "#chart") {
-    svg.selectAll("*").remove();
-    drawBars();
-  } else if (currentStep === "step1") {
-    clearChart(target, drawBars);
-  } else {
-    d3.select(target).selectAll(".decade-chart").remove();
-    drawBars();
-  }
+  drawNote(svg, width, height, mobile);
 }
 
+// ─── init ────────────────────────────────────────────────────────────────────
+
 if (isMobile()) {
-  drawDecades("#mobile-chart-1");
+  drawDecades("#mobile-chart-1", false);
+  d3.select("#mobile-chart-2").selectAll("*").remove();
+  drawChart(femaleData, femaleColor, "Top 10 professions among female protagonists", "Rom-coms released from 1980 to 2025", "#mobile-chart-2");
+  d3.select("#mobile-chart-3").selectAll("*").remove();
+  drawChart(maleData, maleColor, "Top 10 professions among male protagonists", "Rom-coms released from 1980 to 2025", "#mobile-chart-3");
 
-  drawChart(
-    femaleData,
-    femaleColor,
-    "Top 10 professions among female protagonists",
-    "Rom-coms released from 1980 to 2025",
-    "#mobile-chart-2"
-  );
-
-  drawChart(
-    maleData,
-    maleColor,
-    "Top 10 professions among male protagonists",
-    "Rom-coms released from 1980 to 2025",
-    "#mobile-chart-3"
-  );
 } else {
+
+  // REFACTOR: each step handler is self-contained — it decides whether to clear first
   d3.select("#step1").on("stepin", function() {
     if (currentStep !== "step1") {
-      drawDecades("#chart");
+      clearChart("#chart", () => drawDecades("#chart", true));
       currentStep = "step1";
     }
   });
 
   d3.select("#step2").on("stepin", function() {
     if (currentStep !== "step2") {
-      drawChart(
-        femaleData,
-        femaleColor,
-        "Top 10 professions among female protagonists",
-        "Rom-coms released from 1980 to 2025",
-        "#chart"
-      );
+      if (currentStep === "step1") {
+        // coming from the line chart: clear fully before drawing bars
+        clearChart("#chart", () => drawChart(femaleData, femaleColor, "Top 10 professions among female protagonists", "Rom-coms released from 1980 to 2025"));
+      } else {
+        // coming from step3: bars already exist, just update them
+        d3.select("#chart").selectAll(".decade-chart").remove();
+        drawChart(femaleData, femaleColor, "Top 10 professions among female protagonists", "Rom-coms released from 1980 to 2025");
+      }
       currentStep = "step2";
     }
   });
 
   d3.select("#step3").on("stepin", function() {
     if (currentStep !== "step3") {
-      drawChart(
-        maleData,
-        maleColor,
-        "Top 10 professions among male protagonists",
-        "Rom-coms released from 1980 to 2025",
-        "#chart"
-      );
+      d3.select("#chart").selectAll(".decade-chart").remove();
+      drawChart(maleData, maleColor, "Top 10 professions among male protagonists", "Rom-coms released from 1980 to 2025");
       currentStep = "step3";
     }
   });
 
   const scroller = scrollama();
-
   scroller
-    .setup({
-      step: "#scrolly .step",
-      offset: 0.5,
-      debug: false
-    })
+    .setup({ step: "#scrolly .step", offset: 0.5, debug: false })
     .onStepEnter(function({ element, direction }) {
       element.classList.add("is-active");
-
-      const event = new CustomEvent("stepin", {
-        detail: { direction: direction }
-      });
-
-      element.dispatchEvent(event);
+      element.dispatchEvent(new CustomEvent("stepin", { detail: { direction } }));
     })
     .onStepExit(function({ element, direction }) {
-      if (direction === "up") {
-        element.classList.remove("is-active");
-      }
+      if (direction === "up") element.classList.remove("is-active");
     });
 
-  window.addEventListener("resize", function() {
-    scroller.resize();
-  });
+  window.addEventListener("resize", () => scroller.resize());
 }
 </script>
 
