@@ -574,7 +574,6 @@ function isMobile() {
   return window.innerWidth <= 768;
 }
 
-// REFACTOR: all layout values in one place instead of scattered inside drawChart
 function getChartDimensions() {
   const mobile = isMobile();
   return {
@@ -783,7 +782,6 @@ function drawDecades(target = "#chart", animate = true) {
   drawNote(chartGroup, width, height, mobile);
 }
 
-// REFACTOR: drawChart only draws — callers handle clearing/transitioning
 function drawChart(data, color, title, subtitle, target = "#chart") {
   const mobile = isMobile();
 
@@ -918,7 +916,6 @@ if (isMobile()) {
 
 } else {
 
-  // REFACTOR: each step handler is self-contained — it decides whether to clear first
   d3.select("#step1").on("stepin", function() {
     if (currentStep !== "step1") {
       clearChart("#chart", () => drawDecades("#chart", true));
