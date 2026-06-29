@@ -614,7 +614,7 @@ function drawChartHeader(selection, title, subtitle, x, y, mobile) {
   .attr("font-weight", "bold")
   .attr("fill", "#555");
 
-if (mobile && title === "Number of rom-coms released over the decades (1980–2020*)") {
+if (mobile && title === "Number of rom-coms released over the past 45 years (1980–2025)") {
 
   titleText.append("tspan")
     .attr("x", x)
@@ -623,7 +623,7 @@ if (mobile && title === "Number of rom-coms released over the decades (1980–20
   titleText.append("tspan")
     .attr("x", x)
     .attr("dy", "1.2em")
-    .text("over the decades (1980–2020*)");
+    .text("over the past 45 years (1980–2025)");
 
 } else {
 
@@ -636,7 +636,7 @@ if (mobile && title === "Number of rom-coms released over the decades (1980–20
     .attr("x", x)
     .attr("y", y + (
       mobile &&
-      title === "Number of rom-coms released over the decades (1980–2020*)"
+      title === "Number of rom-coms released over the past 45 years (1980–2025)"
         ? 42
         : 22
       ))
@@ -692,7 +692,7 @@ function drawDecades(target = "#chart") {
 
     drawChartHeader(
       chartGroup,
-      "Number of rom-coms released over the decades (1980–2020*)",
+      "Number of rom-coms released over the past 45 years (1980–2025)",
       "(n=882)",
       mobile ? 12 : margin.left,
       mobile ? 22 : 35,
