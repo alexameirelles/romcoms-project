@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rom-Com Project</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Georgia, serif;
+  background:linear-gradient(
+    125deg,
+    #ffd6f0 0%,
+    #d6e8ff 15%,
+    #d6ffd6 28%,
+    #fff5b0 40%,
+    #ffd6f0 52%,
+    #e0d6ff 65%,
+    #b0f0ff 78%,
+    #ffd6f0 100%
+  );
+  background-size:300% 300%;
+  animation:holo 10s ease infinite;
+}
+
+#hero{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+  background:#ffeafc;
+}
+
+#hero picture,
+#hero img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+#hero img{
+  object-fit:cover;
+  z-index:0;
+}
+
+#hero-text{
+  position:absolute;
+  left:20%;
+  bottom:90px;
+  z-index:2;
+  color:white;
+}
+
+.line{
+  overflow:hidden;
+  white-space:nowrap;
+  width:0;
+  border-right:2px solid transparent;
+}
+
+.line1{
+  font-family:"Afrah", Georgia, serif;
+  font-size:clamp(2.8rem,6vw,5rem);
+  animation:
+    showCursor 0s forwards,
+    typing1 2.5s steps(22,end) forwards,
+    hideCursor 0s forwards;
+  animation-delay:0s, 0s, 2.5s;
+}
+
+.line2{
+  font-family:"Afrah", Georgia, serif;
+  font-size:clamp(2.8rem,6vw,5rem);
+  font-style:italic;
+  color:#e8c97a;
+  animation:
+    showCursor 0s forwards,
+    typing2 1.8s steps(12,end) forwards,
+    blink 1.5s infinite;
+  animation-delay:2.6s, 2.6s, 2.6s;
+}
+
+.line3{
+  margin-top:1.5rem;
+  max-width:900px;
+  font-family:"Ahamono", monospace;
+  font-size:1.1rem;
+  font-weight:bold;
+  line-height:1.7;
+  color:rgba(255,255,255,.85);
+}
+
+@keyframes typing1{
+  from{width:0}
+  to{width:100%}
+}
+
+@keyframes typing2{
+  from{width:0}
+  to{width:50%}
+}
+
+@keyframes blink{
+  50%{border-color:transparent}
+}
+
+@keyframes showCursor{
+  to{border-right-color:white}
+}
+
+@keyframes hideCursor{
+  to{border-right-color:transparent}
+}
+
+@keyframes holo{
+  0%{ background-position:0% 50%; }
+  50%{ background-position:100% 50%; }
+  100%{ background-position:0% 50%; }
+}
+
+/* INTRO */
+
+#body-text{
+  max-width:700px;
+  margin:0 auto;
+  padding:6rem 0;
+  color:rgb(89, 89, 89);
+}
+
+#body-text p{
+  font-size:1.15rem;
+  line-height:1.8;
+  margin-bottom:1.5rem;
+}
+
+.byline{
+  font-family:"Georgia";
+  font-size:large;
+  font-weight:100;
+  margin-bottom:2rem;
+}
+
+.intro::first-letter{
+  font-size:5rem;
+  line-height:0.7;
+  font-weight:bold;
+  float:left;
+  margin-right:10px;
+  margin-top:8px;
+  font-family:"Afrah", Georgia, serif;
+  color:#000;
+}
+
+/* SCROLLY */
+
+#scrolly{
+  display:flex;
+  gap:4rem;
+  max-width:1400px;
+  margin:0 auto;
+  padding:4rem 5%;
+  align-items:flex-start;
+}
+
+.scrolly-text{
+  width:38%;
+  z-index:2;
+}
+
+.sticky-thing{
+  position:sticky;
+  top:0;
+  width:62%;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#chart{
+  width:100%;
+  height:auto;
+}
+
+.step{
+  min-height:120vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  padding-top:65vh;
+  padding-bottom:30vh;
+  color:rgb(89,89,89);
+}
+
+.step p{
+  font-family:Georgia, serif;
+  font-size:1.1rem;
+  line-height:1.7;
+}
+
+.step-box{
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,.6);
+  padding:2rem;
+  box-shadow:0 12px 40px rgba(0,0,0,.08);
+
+  opacity:0;
+  transform:translateY(60px);
+  transition:
+    opacity .9s ease-out,
+    transform .9s ease-out;
+}
+
+.step.is-active .step-box{
+  opacity:1;
+  transform:translateY(0);
+}
+
+#step3{
+  padding-bottom:90vh;
+}
+
+/* FINAL / METHODOLOGY */
+
+#outro-text{
+  max-width:700px;
+  margin:0 auto;
+  padding:6rem 0;
+  color:rgb(111,111,111);
+}
+
+#outro-text p{
+  font-size:1.05rem;
+  line-height:1.8;
+  margin-bottom:1.5rem;
+}
+
+
+#mobile-story{
+  display:none;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  #hero-text{
+    display:block;
+    left:7%;
+    right:7%;
+    bottom:70px;
+    color:white;
+  }
+
+  .line {
+    overflow:visible;
+    white-space:normal;
+    width:auto;
+    border-right:none;
+  }
+
+  .line1 {
+    font-size:clamp(2.5rem,13vw,4.2rem);
+    line-height:.95;
+    animation:none;
+  }
+
+  .line2 {
+    font-size:clamp(2.5rem,13vw,4.2rem);
+    line-height:.95;
+    color:#e8c97a;
+    animation:none;
+  }
+
+  .line3 {
+    margin-top:1rem;
+    max-width:260px;
+    font-size:0.9rem;
+    line-height:1.5;
+    white-space:normal;
+  }
+
+  #body-text {
+    padding: 3rem 5%;
+  }
+
+  #body-text p{
+    font-size:1rem;
+    line-height:1.7;
+  }
+
+  #scrolly {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+
+  .sticky-thing {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 44vh;
+    order: 1;
+    z-index: 1;
+    padding: 0.4rem 3% 0;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #chart{
+    width:100%;
+    max-height:44vh;
+    display:block;
+  }
+
+  .scrolly-text {
+    width: 100%;
+    padding: 0 3%;
+    order: 2;
+  }
+
+  .step {
+    min-height: 46vh;
+    padding-top: 2vh;
+    padding-bottom: 6vh;
+  }
+
+  .step p{
+    font-size:.9rem;
+    line-height:1.6;
+  }
+
+  .step-box{
+    padding:1.3rem;
+  }
+
+  #step3 {
+    padding-bottom: 40vh;
+  }
+
+  #outro-text {
+    padding: 3rem 5%;
+  }
+
+  #outro-text p{
+    font-size:1rem;
+    line-height:1.7;
+  }
+
+  #scrolly{
+    display:none;
+  }
+
+  #mobile-story{
+    display:block;
+    padding:0rem 5% 1rem;
+    color:rgb(89,89,89);
+  }
+
+  .mobile-chart-block{
+    margin-bottom:1.5rem;
+  }
+
+  .mobile-chart-block p{
+    font-size:1rem;
+    line-height:1.7;
+    margin-bottom:1.2rem;
+  }
+
+  .mobile-chart-block svg{
+    width:100%;
+    height:auto;
+    display:block;
+    margin:0 auto 1.5rem;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<section id="hero">
+  <picture>
+    <source media="(max-width:768px)" srcset="mobileheader.svg">
+    <img src="header.svg" alt="">
+  </picture>
+
+  <div id="hero-text">
+    <div class="line line1">Are all rom-com women</div>
+    <div class="line line2">journalists?</div>
+    <div class="line3">
+      You may get this impression, I know I did. 
+    </div>
+  </div>
+</section>
+
+<section id="body-text">
+  <div class="byline"><i>Alexa Meirelles | June 28, 2026</i></div>
+
+  <p class="intro">
+    Spoiler alert: no, obviously not every female lead in a romantic comedy is a journalist. But there is a reason so many people get that impression.
+    If you're a fan of the genre like I am — a 29-year-old journalist who grew up watching these movies, especially as a teenager — you probably remember characters such as Jenna Rink from <em>13 Going on 30</em>, Andie Anderson from <em>How to Lose a Guy in 10 Days</em>, Sally Albright from <em>When Harry Met Sally</em>, or even the 2000s most popular anti-heroine Carrie Bradshaw from <em>Sex and the City</em>, whose success began on television before making its way to the big screen.
+  </p>
+
+  <p>
+    Some were newspaper reporters, others worked for magazines, while some were columnists, critics, or television news producers. Regardless of the exact role, the archetype became deeply ingrained in our collective imagination: the fearless, intelligent, charismatic, workaholic journalist. Sometimes she was at the peak of her career; other times she was barely keeping it together, but she was almost always chasing the next big story.
+  </p>
+
+  <p>
+    Of course, Hollywood's journalism versions were far from realistic. In a 2023 <em>Vogue</em> article <a href="https://www.vogue.com/article/how-did-journalism-become-the-it-career-for-rom-com-protagonists" style="color:#b44c7f; text-decoration:none;">"How Did Journalism Become the It Career for Rom-Com Protagonists?"</a>, reporter Emma Specter revisits one of the most iconic scenes in <em>13 Going on 30</em>, in which Jenna Rink proposes a complete rebrand for <em>Poise</em> magazine and almost instantly wins everyone over. Could anything be less realistic?
+  </p>
+
+  <p>
+    It's worth noting that these characters existed during a very different era for the profession. Journalism has never exactly been synonymous with money and power for most people who work in it, but for a time it was associated with a certain glamorous lifestyle, at least on screen.
+  </p>
+
+  <p>
+    But that's part of the charm of a good romantic comedy: it doesn't have to reflect reality faithfully. To find out how common the profession really is, I analyzed the IMDb movies database, focusing on romantic comedies released between 1980 and 2025 that have received at least 10,000 ratings on IMDb.
+  </p>
+
+  <p>
+    The definition of a romantic comedy can be a bit fuzzy. Some films lean more toward drama, while in others romance isn't really the central focus of the story. To keep the dataset consistent, I kept only movies that feature at least one central couple whose relationship is a driving force of the narrative, and that are popularly regarded as rom-coms.
+  </p>
+
+  <p>
+    That left me with 882 movies, not just Hollywood productions, although they make up the overwhelming majority. So, what do the numbers actually show?
+  </p>
+
+</section>
+
+<section id="scrolly">
+
+  <div class="scrolly-text">
+
+    <div class="step" id="step1">
+      <div class="step-box">
+        <p>
+          The genre grew rapidly in the 1990s and <b>peaked in the 2000s</b>, the decade that gave us some of its most iconic titles, including 13 Going on 30, How to Lose a Guy in 10 Days, The Proposal, 27 Dresses, Bridget Jones's Diary and others.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" id="step2">
+      <div class="step-box">
+        <p>
+          And here's why wondering <b>"are they all journalists?"</b> isn't too absurd. It is indeed one of the ten most common professions among female romantic comedy protagonists. Even so, stories about teenagers and young adults dominate the genre: "student" appears far more often than any other occupation.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" id="step3">
+      <div class="step-box">
+        <p>
+          Among male protagonists, the picture changes. <b>Businessman is the most common profession</b>, reflecting one of the genre's most familiar archetypes: the successful, powerful man who initially clashes with the female lead before eventually becoming her love interest. 
+          Writer comes in second, making it another remarkably common occupation among rom-com heroes.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sticky-thing">
+    <svg id="chart"></svg>
+  </div>
+
+</section>
+
+<section id="mobile-story">
+
+  <div class="mobile-chart-block">
+    <p>
+      The genre grew rapidly in the 1990s and <b>peaked in the 2000s</b>, the decade that gave us some of its most iconic titles, including <em>13 Going on 30</em>, <em>How to Lose a Guy in 10 Days</em>, <em>The Proposal</em>, <em>27 Dresses</em>, <em>Bridget Jones's Diary</em> and others.
+    </p>
+    <svg id="mobile-chart-1"></svg>
+  </div>
+
+  <div class="mobile-chart-block">
+    <p>
+      And here's why wondering <b>"are they all journalists?"</b> isn't too absurd. It is indeed one of the ten most common professions among female romantic comedy protagonists. Even so, stories about teenagers and young adults dominate the genre: "student" appears far more often than any other occupation.
+    </p>
+    <svg id="mobile-chart-2"></svg>
+  </div>
+
+  <div class="mobile-chart-block">
+    <p>
+      Among male protagonists, the picture changes. <b>Businessman is the most common profession</b>, reflecting one of the genre's most familiar archetypes: the successful, powerful man who initially clashes with the female lead before eventually becoming her love interest. Writer comes in second, making it another remarkably common occupation among rom-com heroes.
+    </p>
+    <svg id="mobile-chart-3"></svg>
+  </div>
+
+</section>
+
+<section id="outro-text">
+  <p>
+    <b>Methodology.</b> This analysis is based on three publicly available IMDb datasets: <i>title.basics</i>, which contains core information about each film, including genres and release year; <i>title.ratings</i>, used to filter for movies with at least 10,000 user ratings; and <i>title.principals</i>, which provides information about the main cast and crew. I selected films released between 1980 and 2025 that were tagged with both <i>Comedy</i> and <i>Romance</i>. Since IMDb genre tags alone do not necessarily correspond to what critics and audiences would recognize as romantic comedies, I conducted a second round of manual review in batches to remove films that, despite carrying both genre labels, were not primarily considered rom-coms. To identify the professions of protagonists, I used the OpenAI API to classify characters based on contextual information. The resulting classifications were then manually reviewed in batches, with missing values filled in and automated labels checked for consistency and accuracy.
+  </p>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://unpkg.com/scrollama@3.2.0/build/scrollama.js"></script>
+
+<script>
+const decadeData = [
+  { decade: "1980", value: 64 },
+  { decade: "1990", value: 146 },
+  { decade: "2000", value: 293 },
+  { decade: "2010", value: 264 },
+  { decade: "2020*", value: 115 }
+];
+
+const femaleData = [
+  { profession: "Student", value: 179 },
+  { profession: "Teacher", value: 38 },
+  { profession: "Journalist", value: 30 },
+  { profession: "Businesswoman", value: 25 },
+  { profession: "Waitress", value: 22 },
+  { profession: "Lawyer", value: 21 },
+  { profession: "Writer", value: 15 },
+  { profession: "Homemaker", value: 12 },
+  { profession: "Actress", value: 10 },
+  { profession: "Socialite", value: 10 }
+];
+
+const maleData = [
+  { profession: "Student", value: 146 },
+  { profession: "Businessman", value: 106 },
+  { profession: "Writer", value: 28 },
+  { profession: "Lawyer", value: 23 },
+  { profession: "Teacher", value: 20 },
+  { profession: "Architect", value: 18 },
+  { profession: "Doctor", value: 14 },
+  { profession: "Journalist", value: 13 },
+  { profession: "Actor", value: 11 },
+  { profession: "Photographer", value: 11 }
+];
+
+const decadeColor = "#E76BA8";
+const femaleColor = "#FF1F8E";
+const maleColor = "#7A86FF";
+const lightPink = "#F8B8D8";
+const lightBlue = "#AEBBFF";
+
+let currentStep = null;
+
+function isMobile() {
+  return window.innerWidth <= 768;
+}
+
+function getChartDimensions() {
+  const mobile = isMobile();
+  return {
+    width: mobile ? 360 : 730,
+    height: mobile ? 400 : 610,
+    margin: mobile
+      ? { top: 58, right: 24, bottom: 45, left: 45 }
+      : { top: 80, right: 70, bottom: 110, left: 80 }
+  };
+}
+
+function drawNote(selection, width, height, mobile) {
+  selection.selectAll(".note").remove();
+
+  selection.append("text")
+    .attr("class", "note")
+    .attr("x", mobile ? 12 : 80)
+    .attr("y", height - (mobile ? 10 : 16))
+    .attr("text-anchor", "start")
+    .attr("font-family", "Georgia")
+    .attr("font-size", mobile ? 10 : 12)
+    .attr("fill", "#777")
+    .text("Note: 2020s movies are through 2025. | Source: IMDb");
+}
+
+function drawChartHeader(selection, title, subtitle, x, y, mobile) {
+  selection.selectAll(".chart-title").remove();
+  selection.selectAll(".chart-subtitle").remove();
+
+  const titleText = selection.append("text")
+  .attr("class", "chart-title")
+  .attr("x", x)
+  .attr("y", y)
+  .attr("text-anchor", "start")
+  .attr("font-family", "Georgia")
+  .attr("font-size", mobile ? 14 : 20)
+  .attr("font-weight", "bold")
+  .attr("fill", "#555");
+
+if (mobile && title === "Number of rom-coms released over the decades (1980–2020*)") {
+
+  titleText.append("tspan")
+    .attr("x", x)
+    .text("Number of rom-coms released");
+
+  titleText.append("tspan")
+    .attr("x", x)
+    .attr("dy", "1.2em")
+    .text("over the decades (1980–2020*)");
+
+} else {
+
+  titleText.text(title);
+
+}
+
+  selection.append("text")
+    .attr("class", "chart-subtitle")
+    .attr("x", x)
+    .attr("y", y + (
+      mobile &&
+      title === "Number of rom-coms released over the decades (1980–2020*)"
+        ? 42
+        : 22
+      ))
+    .attr("text-anchor", "start")
+    .attr("font-family", "Georgia")
+    .attr("font-size", mobile ? 12 : 14)
+    .attr("fill", "#777")
+    .text(subtitle);
+}
+
+function clearChart(target, callback) {
+  const svg = d3.select(target);
+
+  svg.selectAll("*")
+    .transition()
+    .duration(450)
+    .style("opacity", 0)
+    .remove();
+
+  setTimeout(callback, 450);
+}
+
+function drawDecades(target = "#chart") {
+  const draw = function() {
+    const mobile = isMobile();
+    const { width, height, margin } = getChartDimensions();
+
+    const svg = d3.select(target)
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet");
+
+    const chartGroup = svg.append("g")
+      .attr("class", "decade-chart")
+      .style("opacity", 0);
+
+    chartGroup
+      .transition()
+      .duration(target === "#chart" ? 500 : 0)
+      .style("opacity", 1);
+
+    const x = d3.scalePoint()
+      .domain(decadeData.map(d => d.decade))
+      .range([margin.left, width - margin.right]);
+
+    const y = d3.scaleLinear()
+      .domain([0, 320])
+      .nice()
+      .range([height - margin.bottom, margin.top]);
+
+    const line = d3.line()
+      .x(d => x(d.decade))
+      .y(d => y(d.value));
+
+    drawChartHeader(
+      chartGroup,
+      "Number of rom-coms released over the decades (1980–2020*)",
+      "(n=882)",
+      mobile ? 12 : margin.left,
+      mobile ? 22 : 35,
+      mobile
+    );
+
+    chartGroup.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x).tickSize(0))
+      .call(g => g.select(".domain").remove())
+      .call(g => g.selectAll("text")
+        .attr("font-family", "Georgia")
+        .attr("font-size", mobile ? 10 : 16)
+        .attr("fill", "#555")
+        .attr("dy", "1.5em")
+      );
+
+    chartGroup.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(
+        d3.axisLeft(y)
+          .ticks(4)
+          .tickSize(-(width - margin.left - margin.right))
+          .tickFormat("")
+      )
+      .call(g => g.select(".domain").remove())
+      .call(g => g.selectAll("line")
+        .attr("stroke", "rgba(85,85,85,.18)")
+      );
+
+    const path = chartGroup.append("path")
+      .datum(decadeData)
+      .attr("fill", "none")
+      .attr("stroke", decadeColor)
+      .attr("stroke-width", mobile ? 3 : 5)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-linejoin", "round")
+      .attr("d", line);
+
+    const totalLength = path.node().getTotalLength();
+
+    path
+      .attr("stroke-dasharray", totalLength)
+      .attr("stroke-dashoffset", totalLength)
+      .transition()
+      .duration(target === "#chart" ? 1700 : 900)
+      .ease(d3.easeLinear)
+      .attr("stroke-dashoffset", 0);
+
+    chartGroup.selectAll(".dot")
+      .data(decadeData)
+      .join("circle")
+      .attr("class", "dot")
+      .attr("cx", d => x(d.decade))
+      .attr("cy", d => y(d.value))
+      .attr("r", 0)
+      .attr("fill", decadeColor)
+      .transition()
+      .delay((d, i) => target === "#chart" ? 900 + i * 120 : i * 80)
+      .duration(600)
+      .attr("r", mobile ? 5 : 7);
+
+    chartGroup.selectAll(".decade-value")
+      .data(decadeData)
+      .join("text")
+      .attr("class", "decade-value")
+      .attr("x", d => x(d.decade))
+      .attr("y", d => y(d.value) - (mobile ? 10 : 18))
+      .attr("text-anchor", "middle")
+      .attr("font-family", "Georgia")
+      .attr("font-size", mobile ? 10 : 17)
+      .attr("font-weight", "bold")
+      .attr("fill", "#555")
+      .style("opacity", 0)
+      .text(d => d.value)
+      .transition()
+      .delay((d, i) => target === "#chart" ? 1100 + i * 120 : 300 + i * 80)
+      .duration(600)
+      .style("opacity", 1);
+
+    drawNote(chartGroup, width, height, mobile);
+  };
+
+  if (target === "#chart") {
+    clearChart(target, draw);
+  } else {
+    d3.select(target).selectAll("*").remove();
+    draw();
+  }
+}
+
+function drawChart(data, color, title, subtitle, target = "#chart") {
+  const mobile = isMobile();
+  const { width, height } = getChartDimensions();
+
+  const chartOffset = mobile ? 0 : 40;
+  const xStart = (mobile ? 150 : 180) + chartOffset;
+  const labelX = (mobile ? 140 : 170) + chartOffset;
+  const rowHeight = mobile ? 28 : 45;
+  const fontSize = mobile ? 14 : 18;
+  const barHeight = mobile ? 14 : 18;
+
+  const y = (d, i) => i * rowHeight + (mobile ? 72 : 100);
+
+  const svg = d3.select(target)
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("preserveAspectRatio", "xMidYMid meet");
+
+  function drawBars() {
+    svg.selectAll(".note").remove();
+    svg.selectAll(".chart-title").remove();
+    svg.selectAll(".chart-subtitle").remove();
+
+    drawChartHeader(
+      svg,
+      title,
+      subtitle,
+      mobile ? 12 : 80,
+      mobile ? 22 : 35,
+      mobile
+    );
+
+    const t = d3.transition()
+      .duration(target === "#chart" ? 950 : 700)
+      .ease(d3.easeCubicInOut);
+
+    const scale = mobile ? 0.48 : 1;
+
+    function barFill(d) {
+      if (color === femaleColor) {
+        return ["Student", "Journalist"].includes(d.profession)
+          ? color
+          : lightPink;
+      }
+
+      if (color === maleColor) {
+        return ["Student", "Businessman", "Writer"].includes(d.profession)
+          ? color
+          : lightBlue;
+      }
+
+      return color;
+    }
+
+    function isHighlighted(d) {
+      if (color === femaleColor) {
+        return ["Student", "Journalist"].includes(d.profession);
+      }
+
+      if (color === maleColor) {
+        return ["Student", "Businessman", "Writer"].includes(d.profession);
+      }
+
+      return false;
+    }
+
+    svg.selectAll(".bar")
+      .data(data, d => d.profession)
+      .join(
+        enter => enter.append("rect")
+          .attr("class", "bar")
+          .attr("x", xStart)
+          .attr("y", (d, i) => y(d, i))
+          .attr("width", 0)
+          .attr("height", barHeight)
+          .attr("rx", 1)
+          .attr("ry", 1)
+          .attr("fill", d => barFill(d))
+          .style("opacity", 0)
+          .call(enter => enter.transition(t)
+            .style("opacity", 1)
+            .attr("width", d => d.value * scale)
+          ),
+
+        update => update.call(update => update.transition(t)
+          .attr("y", (d, i) => y(d, i))
+          .attr("width", d => d.value * scale)
+          .attr("fill", d => barFill(d))
+        ),
+
+        exit => exit.call(exit => exit.transition()
+          .duration(450)
+          .style("opacity", 0)
+          .attr("width", 0)
+          .remove()
+        )
+      );
+
+    svg.selectAll(".label")
+      .data(data, d => d.profession)
+      .join(
+        enter => enter.append("text")
+          .attr("class", "label")
+          .attr("x", labelX)
+          .attr("y", (d, i) => y(d, i) + barHeight - 1)
+          .attr("text-anchor", "end")
+          .attr("font-family", "Georgia")
+          .attr("font-size", fontSize)
+          .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
+          .attr("fill", "#555")
+          .text(d => d.profession)
+          .style("opacity", 0)
+          .call(enter => enter.transition(t)
+            .style("opacity", 1)
+          ),
+
+        update => update.call(update => update.transition(t)
+          .attr("y", (d, i) => y(d, i) + barHeight - 1)
+          .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
+          .style("opacity", 1)
+        ),
+
+        exit => exit.call(exit => exit.transition()
+          .duration(450)
+          .style("opacity", 0)
+          .remove()
+        )
+      );
+
+    svg.selectAll(".value")
+      .data(data, d => d.profession)
+      .join(
+        enter => enter.append("text")
+          .attr("class", "value")
+          .attr("x", d => xStart + d.value * scale + 6)
+          .attr("y", (d, i) => y(d, i) + barHeight - 1)
+          .attr("font-family", "Georgia")
+          .attr("font-size", fontSize)
+          .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
+          .attr("fill", "#555")
+          .text(d => d.value)
+          .style("opacity", 0)
+          .call(enter => enter.transition(t)
+            .style("opacity", 1)
+          ),
+
+        update => update.call(update => update.transition(t)
+          .attr("x", d => xStart + d.value * scale + 6)
+          .attr("y", (d, i) => y(d, i) + barHeight - 1)
+          .attr("font-weight", d => isHighlighted(d) ? "bold" : "normal")
+          .tween("text", function(d) {
+            const start = +this.textContent || 0;
+            const interp = d3.interpolateNumber(start, d.value);
+            return function(t) {
+              this.textContent = Math.round(interp(t));
+            };
+          })
+        ),
+
+        exit => exit.call(exit => exit.transition()
+          .duration(450)
+          .style("opacity", 0)
+          .remove()
+        )
+      );
+
+    drawNote(svg, width, height, mobile);
+  }
+
+  if (target !== "#chart") {
+    svg.selectAll("*").remove();
+    drawBars();
+  } else if (currentStep === "step1") {
+    clearChart(target, drawBars);
+  } else {
+    d3.select(target).selectAll(".decade-chart").remove();
+    drawBars();
+  }
+}
+
+if (isMobile()) {
+  drawDecades("#mobile-chart-1");
+
+  drawChart(
+    femaleData,
+    femaleColor,
+    "Top 10 professions among female protagonists",
+    "Rom-coms released from 1980 to 2025",
+    "#mobile-chart-2"
+  );
+
+  drawChart(
+    maleData,
+    maleColor,
+    "Top 10 professions among male protagonists",
+    "Rom-coms released from 1980 to 2025",
+    "#mobile-chart-3"
+  );
+} else {
+  d3.select("#step1").on("stepin", function() {
+    if (currentStep !== "step1") {
+      drawDecades("#chart");
+      currentStep = "step1";
+    }
+  });
+
+  d3.select("#step2").on("stepin", function() {
+    if (currentStep !== "step2") {
+      drawChart(
+        femaleData,
+        femaleColor,
+        "Top 10 professions among female protagonists",
+        "Rom-coms released from 1980 to 2025",
+        "#chart"
+      );
+      currentStep = "step2";
+    }
+  });
+
+  d3.select("#step3").on("stepin", function() {
+    if (currentStep !== "step3") {
+      drawChart(
+        maleData,
+        maleColor,
+        "Top 10 professions among male protagonists",
+        "Rom-coms released from 1980 to 2025",
+        "#chart"
+      );
+      currentStep = "step3";
+    }
+  });
+
+  const scroller = scrollama();
+
+  scroller
+    .setup({
+      step: "#scrolly .step",
+      offset: 0.5,
+      debug: false
+    })
+    .onStepEnter(function({ element, direction }) {
+      element.classList.add("is-active");
+
+      const event = new CustomEvent("stepin", {
+        detail: { direction: direction }
+      });
+
+      element.dispatchEvent(event);
+    })
+    .onStepExit(function({ element, direction }) {
+      if (direction === "up") {
+        element.classList.remove("is-active");
+      }
+    });
+
+  window.addEventListener("resize", function() {
+    scroller.resize();
+  });
+}
+</script>
+
+</body>
+</html>
