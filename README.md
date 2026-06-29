@@ -1,5 +1,7 @@
 # Are All Rom-Com Women Journalists?
 
+URL: https://alexameirelles.github.io/romcoms-project/
+
 *A data-driven look at the professions of romantic comedy protagonists from 1980 to 2025.*
 
 ---
